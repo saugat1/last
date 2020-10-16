@@ -28,7 +28,7 @@ if($type == null) {
 echo 'Type Not Found';
 }
 
-$stat = json_decode(curl('https://graph.facebook.com/v2.11/me/home?fields=id&limit=15&access_token='.$access_token), true);
+$stat = json_decode(curl('https://graph.facebook.com/v2.11/me/home?fields=id&limit=5&access_token='.$access_token), true);
 for ($i = 1; $i <= count($stat['data']); $i++) {
 if (!preg_match($stat['data'][$i - 1]['id'], $log)) {
 curl("https://graph.facebook.com/v2.11/".$stat['data'][$i - 1]['id']."/reactions?", array(
