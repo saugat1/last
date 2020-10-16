@@ -1,19 +1,27 @@
 <?php
 error_reporting(0);
-function curl($url, $post=null){
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-if($post != null){
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-}
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-$exec = curl_exec($ch);
-curl_close($ch);
-return $exec;
-}
+function curl($url = '', $var = '', $echo = '', $ref = '', $header = false)
+	{
+		global $config, $sock;
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_NOBODY, $header);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 150);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0');
+		if ($var) {
+			curl_setopt($curl, CURLOPT_POST, true);
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $var);
+		}
+		curl_setopt($curl, CURLOPT_COOKIEFILE, $config['cookie_file']);
+		curl_setopt($curl, CURLOPT_COOKIEJAR, $config['cookie_file']);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		$result = curl_exec($curl);
+		curl_close($curl);
+		return $result;
+	}
+
 
 if(!empty($_GET['token'])) {
 $access_token = $_GET['token'];
